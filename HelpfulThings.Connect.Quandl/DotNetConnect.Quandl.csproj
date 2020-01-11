@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <Description>An asynchronous library for Quandl for .NET Standard</Description>
+    <Copyright>2018</Copyright>
+    <PackageLicenseUrl>https://github.com/paranoidTwitch/DotNetConnect.Quandl/blob/master/LICENCE.md</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/paranoidTwitch/DotNetConnect.Quandl</PackageProjectUrl>
+    <PackageIconUrl>https://i.imgur.com/qLyye40.png</PackageIconUrl>
+    <RepositoryUrl>https://github.com/paranoidTwitch/DotNetConnect.Quandl</RepositoryUrl>
+    <RepositoryType>Git</RepositoryType>
+    <PackageTags>Financial API Quandl Wrapper Async</PackageTags>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="CsvHelper" Version="7.0.1" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="1.1.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="11.0.1" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,29 @@
+<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <TargetFramework>netstandard2.1</TargetFramework>
+        <AssemblyName>HelpfulThings.Connect.Quandl</AssemblyName>
+        <RootNamespace>HelpfulThings.Connect.Quandl</RootNamespace>
+        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+        <Title>Helpful Things Quandl API Connector</Title>
+        <Copyright>2019</Copyright>
+        <PackageProjectUrl>https://github.com/bytewisemarissa/HelpfulThings.Connect.Quandl</PackageProjectUrl>
+        <PackageLicenseFile>LICENSE</PackageLicenseFile>
+        <PackageIcon>icon.png</PackageIcon>
+        <PackageIconUrl>https://i.imgur.com/qLyye40.png</PackageIconUrl>
+        <RepositoryUrl>https://github.com/bytewisemarissa/HelpfulThings.Connect.Quandl.git</RepositoryUrl>
+        <RepositoryType>Github</RepositoryType>
+        <PackageVersion>1.0.0</PackageVersion>
+    </PropertyGroup>
+    <ItemGroup>
+      <PackageReference Include="CsvHelper" Version="12.3.2" />
+      <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="3.1.0" />
+      <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+    </ItemGroup>
+    <ItemGroup>
+        <Folder Include="NugetSupport" />
+    </ItemGroup>
+    <ItemGroup>
+        <None Include="NugetSupport\icon.png" Pack="true" PackagePath="$(PackageIcon)" />
+        <None Include="NugetSupport\LICENSE" Pack="true" PackagePath="$(PackageLicenceFile)" />
+    </ItemGroup>
+</Project>

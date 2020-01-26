@@ -1,38 +1,17 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
-using HelpfulThings.Connect.Quandl.Models.DatatableModels;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace HelpfulThings.Connect.Quandl.Tests.Live
 {
     [TestClass]
-    public class QuandlDatatableTests
+    public class QuandlDatatableTests : BaseLiveTest
     {
-        private QuandlDatatable _testDatatable;
-
-        [ClassInitialize]
-        public static void DatabaseUnitTestsInialization(TestContext context)
-        {
-            using (FileStream secretsFile = File.Open("Secrets/apikey.secrets", FileMode.Open))
-            {
-                using (StreamReader reader = new StreamReader(secretsFile))
-                {
-                    QuandlRequest.ApiKey = reader.ReadToEnd();
-                }
-            }
-        }
-
-        [TestInitialize]
-        public void DatatableTestInitalizer()
-        {
-              _testDatatable = new QuandlDatatable("WIKI/PRICES");  
-        }
-
         [TestMethod]
         public async Task Live_GetEntireDatatableTest()
         {
-            DatatableResponse datatableTestResponse = await _testDatatable.GetEntireDatatable();
+            var datatableTestResponse = await TestApiClient.Datatable.GetEntireDatatable("WIKI/PRICES", null);
 
             Assert.IsNotNull(datatableTestResponse);
             Assert.IsNotNull(datatableTestResponse.Datatable);
@@ -50,7 +29,11 @@ namespace HelpfulThings.Connect.Quandl.Tests.Live
             Dictionary<string, List<string>> rowSearchFilters = new Dictionary<string, List<string>>();
             rowSearchFilters.Add("ticker", new List<string> { "AAMC", "A" });
 
-            DatatableResponse datatableTestResponse = await _testDatatable.GetFilteredDatatable(rowSearchFilters);
+            var datatableTestResponse = await TestApiClient.Datatable.GetFilteredDatatable(
+                "WIKI/PRICES", 
+                rowSearchFilters, 
+                null, 
+                null);
 
             Assert.IsNotNull(datatableTestResponse);
             Assert.IsNotNull(datatableTestResponse.Datatable);
@@ -67,7 +50,11 @@ namespace HelpfulThings.Connect.Quandl.Tests.Live
         {
             List<string> columnSearchFilters = new List<string> {"ticker", "date", "close"};
 
-            DatatableResponse datatableTestResponse = await _testDatatable.GetFilteredDatatable(null, columnSearchFilters);
+            var datatableTestResponse = await TestApiClient.Datatable.GetFilteredDatatable(
+                "WIKI/PRICES",
+                null, 
+                columnSearchFilters,
+                null);
 
             Assert.IsNotNull(datatableTestResponse);
             Assert.IsNotNull(datatableTestResponse.Datatable);
@@ -87,7 +74,11 @@ namespace HelpfulThings.Connect.Quandl.Tests.Live
 
             List<string> columnSearchFilters = new List<string> { "ticker", "date", "close" };
 
-            DatatableResponse datatableTestResponse = await _testDatatable.GetFilteredDatatable(rowSearchFilters, columnSearchFilters);
+            var datatableTestResponse = await TestApiClient.Datatable.GetFilteredDatatable(
+                "WIKI/PRICES",
+                rowSearchFilters,
+                columnSearchFilters,
+                null);
 
             Assert.IsNotNull(datatableTestResponse);
             Assert.IsNotNull(datatableTestResponse.Datatable);

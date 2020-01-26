@@ -1,72 +1,59 @@
 ﻿using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Linq;
+using HelpfulThings.Connect.Quandl.Ioc;
 
 namespace HelpfulThings.Connect.Quandl.Statistics
 {
-    public static class StatisticsCollector
+    public interface IStatisticsCollector
     {
-        public static bool CollectionEnabled { get; set; }
-        public static int CollectionDepthRequests { get; set; }
-        public static int CollectionSlopRequests { get; set; }
+        void CollectRequestStatistics(
+            int currentRate, 
+            int rateLimitRemaining, 
+            double requestTime,
+            DateTimeOffset lastRequestTime);
+    }
 
-        private static readonly ConcurrentDictionary<Guid, RequestStatistic> RequestStatisticsCollection;
-        private static readonly object RequestStatsLock;
-
-        static StatisticsCollector()
+    public class StatisticsCollector : IStatisticsCollector
+    {
+        private readonly QuandlApiOptions _options;
+        private int _totalDataPoints;
+        private readonly object _statsLock;
+        
+        public readonly ApiStatistics Statistics;
+        
+        public StatisticsCollector(QuandlApiOptions options)
         {
-            CollectionEnabled = false;
-            CollectionDepthRequests = 500;
-            CollectionSlopRequests = 20;
-            RequestStatisticsCollection = new ConcurrentDictionary<Guid, RequestStatistic>();
-            RequestStatsLock = new object();
+            _options = options;
+            _totalDataPoints = 0;
+            _statsLock = new object();
+            Statistics = new ApiStatistics();
         }
 
-        public static void ClearAllCollections()
+        public void CollectRequestStatistics(
+            int currentRate, 
+            int rateLimitRemaining, 
+            double requestTime,
+            DateTimeOffset lastRequestTime)
         {
-            RequestStatisticsCollection.Clear();
-        }
-
-        public static void CollectRequestStatistic(RequestStatistic stat)
-        {
-            if (!CollectionEnabled)
+            lock (_statsLock)
             {
-                return;
-            }
-
-            if (CollectionDepthRequests > 0)
-            {
-                int maxCollectionDepth = CollectionDepthRequests + CollectionSlopRequests;
-                lock (RequestStatsLock)
+                if (lastRequestTime < Statistics.LastRequestTime)
                 {
-                    if (RequestStatisticsCollection.Count > (maxCollectionDepth - 1))
-                    {
-                        int amountOfRecordsToRemove = RequestStatisticsCollection.Count -
-                                                      (CollectionDepthRequests - CollectionSlopRequests);
-
-                        IEnumerable<Guid> recordsToRemove =
-                            RequestStatisticsCollection.OrderBy(dt => dt.Value.Date).Select(kv => kv.Key).Take(amountOfRecordsToRemove);
-
-                        foreach (Guid record in recordsToRemove)
-                        {
-                            RequestStatistic throwAway;
-                            RequestStatisticsCollection.TryRemove(record, out throwAway);
-                        }
-                    }
-
-                    RequestStatisticsCollection.TryAdd(Guid.NewGuid(), stat);
+                    return;
                 }
-            }
-            else
-            {
-                RequestStatisticsCollection.TryAdd(Guid.NewGuid(), stat);
-            }
-        }
 
-        public static List<RequestStatistic> GetStatisticsCollection()
-        {
-            return RequestStatisticsCollection.Values.ToList();
+                Statistics.LastRequestTime = lastRequestTime;
+                Statistics.CurrentLimit = currentRate;
+                Statistics.RateLimitRemaining = rateLimitRemaining;
+
+                if (_totalDataPoints != _options.StatisticsRollingAvgDataPoints + 1)
+                {
+                    _totalDataPoints++;
+                }
+
+                Statistics.AverageRequestRunTime = (requestTime +
+                                                    ((_totalDataPoints - 1) * Statistics.AverageRequestRunTime)) /
+                                                   _totalDataPoints;
+            }
         }
     }
 }

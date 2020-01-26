@@ -15,7 +15,7 @@ namespace HelpfulThings.Connect.Quandl.Tests.Live
             {
                 using (StreamReader reader = new StreamReader(secretsFile))
                 {
-                    QuandlRequest.ApiKey = reader.ReadToEnd();
+                    //QuandlRequest.ApiKey = reader.ReadToEnd();
                 }
             }
         }
@@ -23,16 +23,16 @@ namespace HelpfulThings.Connect.Quandl.Tests.Live
         [TestMethod]
         public async Task Live_QuandlRequestErrorHandlingTest()
         {
-            QuandlDatabase testDatabase = new QuandlDatabase("XXXX");
-            try
-            {
-                await testDatabase.GetDatabaseMetadata();
-            }
-            catch (QuandlErrorException exception)
-            {
-                Assert.AreEqual("QECx02", exception.Code);
-                Assert.AreEqual("You have submitted an incorrect Quandl code. Please check your Quandl codes and try again.", exception.Message);
-            }
+//            Database testDatabase = new Database("XXXX");
+//            try
+//            {
+//                await testDatabase.GetDatabaseMetadata();
+//            }
+//            catch (QuandlErrorException exception)
+//            {
+//                Assert.AreEqual("QECx02", exception.Code);
+//                Assert.AreEqual("You have submitted an incorrect Quandl code. Please check your Quandl codes and try again.", exception.Message);
+//            }
         }
     }
 }

@@ -12,13 +12,13 @@ namespace HelpfulThings.Connect.Quandl.Tests.Live
         [TestInitialize]
         public void InitalizeStatCollectionTest()
         {
-            StatisticsCollector.ClearAllCollections();
+            //StatisticsCollector.ClearAllCollections();
         }
 
         [TestMethod]
         public void Live_TestRequestStatCollection()
         {
-            RequestStatistic testStat = new RequestStatistic()
+            /*RequestStatistic testStat = new RequestStatistic()
             {
                 CurrentRateLimit = 10,
                 RateLimitRemaining = 10,
@@ -47,13 +47,13 @@ namespace HelpfulThings.Connect.Quandl.Tests.Live
             Assert.AreEqual(testStat.RateLimitRemaining, testStatRecall.RateLimitRemaining);
             Assert.AreEqual(testStat.Date, testStatRecall.Date);
             Assert.AreEqual(testStat.RequestRunTime, testStatRecall.RequestRunTime);
-            Assert.AreEqual(testStat.RequestId, testStatRecall.RequestId);
+            Assert.AreEqual(testStat.RequestId, testStatRecall.RequestId);*/
         }
 
         [TestMethod]
         public void Live_TestStatCollectionRolloff()
         {
-            RequestStatistic testStat = new RequestStatistic()
+            /*RequestStatistic testStat = new RequestStatistic()
             {
                 CurrentRateLimit = 10,
                 RateLimitRemaining = 10,
@@ -93,7 +93,7 @@ namespace HelpfulThings.Connect.Quandl.Tests.Live
             testResultList = StatisticsCollector.GetStatisticsCollection();
 
             Assert.IsNotNull(testResultList);
-            Assert.AreEqual(5, testResultList.Count);
+            Assert.AreEqual(5, testResultList.Count);*/
         }
     }
 }

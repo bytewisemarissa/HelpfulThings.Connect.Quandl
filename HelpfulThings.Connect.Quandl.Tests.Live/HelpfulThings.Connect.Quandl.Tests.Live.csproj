@@ -17,9 +17,6 @@
 
     <ItemGroup>
       <None Remove="Secrets\apikey.secrets" />
-      <Content Include="Secrets\apikey.secrets">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </Content>
     </ItemGroup>
 
 </Project>

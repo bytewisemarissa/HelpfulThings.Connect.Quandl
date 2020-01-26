@@ -12,7 +12,7 @@
         <PackageIconUrl>https://i.imgur.com/qLyye40.png</PackageIconUrl>
         <RepositoryUrl>https://github.com/bytewisemarissa/HelpfulThings.Connect.Quandl.git</RepositoryUrl>
         <RepositoryType>Github</RepositoryType>
-        <PackageVersion>1.0.0</PackageVersion>
+        <PackageVersion>2.0.0</PackageVersion>
     </PropertyGroup>
     <ItemGroup>
       <PackageReference Include="CsvHelper" Version="12.3.2" />

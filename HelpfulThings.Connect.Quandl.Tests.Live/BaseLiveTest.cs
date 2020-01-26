@@ -26,12 +26,7 @@ namespace HelpfulThings.Connect.Quandl.Tests.Live
 
             try
             {
-                var assembly = Assembly.GetExecutingAssembly();
-                var resourceStream =
-                    assembly.GetManifestResourceStream("HelpfulThings.Connect.Quandl.Tests.Live.Secrets.apikey.secrets");
-                using var reader = new StreamReader(resourceStream ?? throw new Exception(),
-                    Encoding.UTF8);
-                apiKey = reader.ReadToEnd();
+                apiKey = File.ReadAllText("Secrets/apikey.secrets");
             }
             catch (Exception ex)
             {

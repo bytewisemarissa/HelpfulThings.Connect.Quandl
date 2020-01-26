@@ -17,9 +17,9 @@
 
     <ItemGroup>
       <None Remove="Secrets\apikey.secrets" />
-      <EmbeddedResource Include="Secrets\apikey.secrets">
+      <Content Include="Secrets\apikey.secrets">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </EmbeddedResource>
+      </Content>
     </ItemGroup>
 
 </Project>
